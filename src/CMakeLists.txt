@@ -209,6 +209,7 @@ file(GLOB_RECURSE guibase_inlines GuiBase/*.inl)
 set (guibase_libs
     radiumEngine
     radiumCore
+    radiumIO
     ${Qt5_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${GLBINDING_LIBRARIES}
