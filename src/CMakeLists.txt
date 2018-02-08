@@ -222,7 +222,7 @@ add_library(
     ${guibase_headers}
     ${guibase_inlines})
 
-add_dependencies( ${guibase_target} ${engine_target} ${io_target} ${core_target glbinding_lib globjects_lib)
+add_dependencies( ${guibase_target} ${engine_target} ${io_target} ${core_target} glbinding_lib globjects_lib)
 target_compile_definitions(${guibase_target} PRIVATE "-DRA_GUIBASE_EXPORTS")
 
 target_link_libraries(
