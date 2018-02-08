@@ -41,7 +41,7 @@ namespace Ra
 
             /// Select an item through an item entry. @see QItemSelectionModel::Select
             virtual void select( const Engine::ItemEntry& ent,  QItemSelectionModel::SelectionFlags command );
-            void select(const QItemSelection & selection, QItemSelectionModel::SelectionFlags command) override;
+///\todo check this :      void select(const QItemSelection & selection, QItemSelectionModel::SelectionFlags command) override;
 
             /// Set an item as current through an item entry. @see QItemSelectionModel::setCurrent
             void setCurrentEntry( const Engine::ItemEntry& ent, QItemSelectionModel::SelectionFlags command);

@@ -55,11 +55,12 @@ namespace Ra
             }
         }
 
-        void SelectionManager::select(const QItemSelection & selection, QItemSelectionModel::SelectionFlags command) {
+    ///\todo : check this
+/*        void SelectionManager::select(const QItemSelection & selection, QItemSelectionModel::SelectionFlags command) {
             LOG(logERROR) << "SelectionManager must use select(const ItemEntry& ent, QItemSelectionModel::SelectionFlags command), not select(const QItemSelection & selection, QItemSelectionModel::SelectionFlags command)\n";
             CORE_ERROR("bad method call");
         }
-
+*/
         void SelectionManager::setCurrentEntry(const ItemEntry& ent, QItemSelectionModel::SelectionFlags command)
         {
             QModelIndex idx = itemModel()->findEntryIndex(ent);
