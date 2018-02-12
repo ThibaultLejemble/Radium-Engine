@@ -39,6 +39,8 @@
 #include <QCommandLineParser>
 #include <QOpenGLContext>
 
+#include <algorithm>
+
 
 // Const parameters : TODO : make config / command line options
 
@@ -205,8 +207,9 @@ namespace GuiBase
             LOG( logERROR ) << "An error occurred while trying to load plugins.";
         }
 
-        // Create task queue with N-1 threads (we keep one for rendering).
-        uint numThreads =  std::thread::hardware_concurrency() - 1;
+        // Create task queue with N-1 threads (we keep one for rendering),
+        // unless monothread CPU
+        uint numThreads =  std::min(std::thread::hardware_concurrency() - 1, 1u);
         if (m_maxThreads > 0 && m_maxThreads < numThreads)
         {
             numThreads = m_maxThreads;
