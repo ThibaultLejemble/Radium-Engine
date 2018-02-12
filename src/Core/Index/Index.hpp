@@ -1,7 +1,6 @@
 #ifndef RADIUMENGINE_INDEX_HPP
 #define RADIUMENGINE_INDEX_HPP
 
-#include <Core/RaCore.hpp>
 #include <limits>
 
 namespace Ra
@@ -13,158 +12,65 @@ namespace Ra
         {
         public:
             /// CONSTRUCTOR
-            Index( const int i = s_invalid );
-            Index( const Index& i );
+            constexpr Index( int i = s_invalid );
+            constexpr Index( const Index& i );
 
-            /// DESTRUCTOR
-            ~Index() { }
-
-            /// COPY
-            inline void copy( const Index& id );
+            /// DESTRUCTOR: Must not be defined, we need it trivial to be
+            /// constexpr
+            // ~Index() { }
 
             /// VALID
-            inline bool isValid() const;
+            constexpr bool isValid() const;
 
             /// INVALID
-            inline bool isInvalid() const;
-            inline void setInvalid();
-            static Index INVALID_IDX()
-            {
-                return Index( s_invalid );
-            }
-            static Index MAX_IDX()
-            {
-                return Index( s_maxIdx );
-            }
+            constexpr bool isInvalid() const;
+            constexpr void setInvalid();
+            static constexpr Index Invalid();
+            static constexpr Index Max();
 
             /// INDEX
-            inline int  getValue() const;
-            inline void setValue( const int i );
+            constexpr int  getValue() const;
+            constexpr void setValue( const int i );
+
+            /// CAST
+            constexpr operator int() const; // required for `array[idx]`
 
             /// OPERATOR
-            inline Index& operator= ( const Index& id );
-            inline Index& operator++();
-            inline Index& operator--();
-            inline operator int() const
-            {
-                return m_idx;
-            }
-            friend inline Index operator+ ( const Index& id0, const Index& id1 )
-            {
-                if ( id0.isInvalid() || id1.isInvalid() )
-                {
-                    return INVALID_IDX();
-                }
-                return Index( id0.m_idx + id1.m_idx );
-            }
-            friend inline Index operator+ ( const Index& id,  const int    off )
-            {
-                int i;
-                i = ( ( i = id.m_idx + off ) < 0 ) ? s_invalid : i;
-                return Index( i );
-            }
-            friend inline Index operator- ( const Index& id0, const Index& id1 )
-            {
-                if ( id0.isInvalid() || id1.isInvalid() )
-                {
-                    return INVALID_IDX();
-                }
-                return Index( id0.m_idx - id1.m_idx );
-            }
-            friend inline Index operator- ( const Index& id,  const int    off )
-            {
-                int i;
-                i = ( ( i = id.m_idx - off ) < 0 ) ? s_invalid : i;
-                return Index( i );
-            }
-            friend inline bool  operator== ( const Index& id0, const Index& id1 )
-            {
-                return ( id0.m_idx == id1.m_idx );
-            }
-            friend inline bool  operator!= ( const Index& id0, const Index& id1 )
-            {
-                return ( id0.m_idx != id1.m_idx );
-            }
-            friend inline bool  operator< ( const Index& id0, const Index& id1 )
-            {
-                if ( id0.isInvalid() || id1.isInvalid() )
-                {
-                    return false;
-                }
-                return ( id0.m_idx <  id1.m_idx );
-            }
-            friend inline bool  operator<= ( const Index& id0, const Index& id1 )
-            {
-                if ( id0.isInvalid() || id1.isInvalid() )
-                {
-                    return false;
-                }
-                return ( id0.m_idx <= id1.m_idx );
-            }
-            friend inline bool  operator> ( const Index& id0, const Index& id1 )
-            {
-                if ( id0.isInvalid() || id1.isInvalid() )
-                {
-                    return false;
-                }
-                return ( id0.m_idx >  id1.m_idx );
-            }
-            friend inline bool  operator>= ( const Index& id0, const Index& id1 )
-            {
-                if ( id0.isInvalid() || id1.isInvalid() )
-                {
-                    return false;
-                }
-                return ( id0.m_idx >= id1.m_idx );
-            }
-            friend inline bool  operator== ( const Index& id,  const int    i )
-            {
-                return ( id.m_idx == i );
-            }
-            friend inline bool  operator!= ( const Index& id,  const int    i )
-            {
-                return ( id.m_idx != i );
-            }
-            friend inline bool  operator< ( const Index& id,  const int    i )
-            {
-                return ( id.m_idx <  i );
-            }
-            friend inline bool  operator<= ( const Index& id,  const int    i )
-            {
-                return ( id.m_idx <= i );
-            }
-            friend inline bool  operator> ( const Index& id,  const int    i )
-            {
-                return ( id.m_idx >  i );
-            }
-            friend inline bool  operator>= ( const Index& id,  const int    i )
-            {
-                return ( id.m_idx >= i );
-            }
-            friend inline bool  operator== ( const int    i, const Index& id )
-            {
-                return ( id.m_idx == i );
-            }
-            friend inline bool  operator!= ( const int    i, const Index& id )
-            {
-                return ( id.m_idx != i );
-            }
-            friend inline bool  operator< ( const int    i, const Index& id )
-            {
-                return ( id.m_idx <  i );
-            }
-            friend inline bool  operator<= ( const int    i, const Index& id )
-            {
-                return ( id.m_idx <= i );
-            }
-            friend inline bool  operator> ( const int    i, const Index& id )
-            {
-                return ( id.m_idx >  i );
-            }
-            friend inline bool  operator>= ( const int    i, const Index& id )
-            {
-                return ( id.m_idx >= i );
-            }
+            constexpr Index& operator= ( const Index& id );
+            constexpr Index& operator++();
+            constexpr Index& operator--();
+
+            constexpr Index operator+ ( const Index& id );
+            template <typename Integer>
+            constexpr Index operator+ ( const Integer& i );
+
+            constexpr Index operator- ( const Index& id );
+            template <typename Integer>
+            constexpr Index operator- ( const Integer& i );
+
+            constexpr bool operator== ( const Index& id );
+            template <typename Integer>
+            constexpr bool  operator== ( const Integer& i );
+
+            constexpr bool  operator!= ( const Index& id );
+            template <typename Integer>
+            constexpr bool  operator!= ( const Integer& i );
+
+            constexpr bool  operator< ( const Index& id1 );
+            template <typename Integer>
+            constexpr bool  operator< ( const Integer& i );
+
+            constexpr bool  operator<= ( const Index& id1 );
+            template <typename Integer>
+            constexpr bool  operator<= ( const Integer& i );
+
+            constexpr bool  operator> ( const Index& id1 );
+            template <typename Integer>
+            constexpr bool  operator> ( const Integer& i );
+
+            constexpr bool  operator>= ( const Index& id1 );
+            template <typename Integer>
+            constexpr bool  operator>= ( const Integer& i );
 
         protected:
             /// VARIABLE
@@ -175,7 +81,6 @@ namespace Ra
             static const int s_invalid = -1;
             static const int s_maxIdx = std::numeric_limits<int>::max();
         };
-
     }
 } // namespace Ra::Core
 

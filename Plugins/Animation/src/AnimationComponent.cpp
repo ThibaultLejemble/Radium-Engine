@@ -38,7 +38,7 @@ namespace AnimationPlugin
             m_wasReset(false),
             m_resetDone(false)
         {}
-    
+
     AnimationComponent::~AnimationComponent() {}
 
 
@@ -103,7 +103,7 @@ namespace AnimationPlugin
             {
                 std::string name = m_skel.getLabel(i);
                 Ra::Core::StringUtils::appendPrintf( name, " (%d)", i);
-                m_boneDrawables.push_back(std::make_unique<SkeletonBoneRenderObject>( name, this, i, getRoMgr()));
+                m_boneDrawables.emplace_back( new SkeletonBoneRenderObject( name, this, i, getRoMgr()));
                 m_renderObjects.push_back(m_boneDrawables.back()->getRenderObjectIndex() );
             } else {
                 LOG( logDEBUG ) << "Bone " << m_skel.getLabel( i ) << " not displayed.";
@@ -165,7 +165,7 @@ namespace AnimationPlugin
     }
 
 
-    void AnimationComponent::handleSkeletonLoading( const Ra::Asset::HandleData* data, const std::vector<uint>& duplicateTable, uint nbMeshVertices ) {
+    void AnimationComponent::handleSkeletonLoading( const Ra::Asset::HandleData* data, const std::vector<Ra::Core::Index>& duplicateTable, uint nbMeshVertices ) {
         std::string name( m_name );
         name.append( "_" + data->getName() );
 
@@ -226,8 +226,10 @@ namespace AnimationPlugin
         m_animationTime = 0.0;
     }
 
-    void AnimationComponent::createWeightMatrix( const Ra::Asset::HandleData* data, const std::map< uint, uint >& indexTable,
-                                                 const std::vector<uint>& duplicateTable, uint nbMeshVertices ) {
+    void AnimationComponent::createWeightMatrix(const Ra::Asset::HandleData* data,
+                                                const std::map< uint, uint >& indexTable,
+                                                const std::vector<Ra::Core::Index> &duplicateTable,
+                                                uint nbMeshVertices ) {
         m_weights.resize( nbMeshVertices, data->getComponentDataSize() );
 
         for( const auto& it : indexTable ) {
