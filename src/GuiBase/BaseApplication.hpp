@@ -52,7 +52,7 @@ namespace Ra
 {
 namespace GuiBase{
     /// This class contains the main application logic. It owns the engine and the GUI.
-    class BaseApplication : public QApplication
+    class RA_GUIBASE_API BaseApplication : public QApplication
     {
         Q_OBJECT
 
@@ -69,7 +69,7 @@ namespace GuiBase{
         ///\param argv from main()
         ///\param factory : a functor that instanciate the mainWindow
         BaseApplication( int argc, char** argv, const WindowFactory &factory, QString applicationName = "RadiumEngine", QString organizationName = "STORM-IRIT");
-        ~BaseApplication();
+        virtual ~BaseApplication();
 
         /// Advance the engine for one frame.
         void radiumFrame();

@@ -35,7 +35,7 @@ namespace GuiBase {
 
 /// Interface class for MainWindow
 /// contains abstract methods that MainApplication uses.
-class MainWindowInterface : public QMainWindow {
+class RA_GUIBASE_API MainWindowInterface : public QMainWindow {
   Q_OBJECT
 
 public:
@@ -64,7 +64,7 @@ public slots:
   /// Call after loading a new file to let the window resetview for instance.
   virtual void postLoadFile() = 0;
   /// Cleanup resources.
-  virtual void cleanup() =0;
+  virtual void cleanup() = 0;
 
 signals:
   /// Emitted when the closed button has been hit.
