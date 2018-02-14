@@ -52,6 +52,29 @@ namespace Ra
             return ent.get();
         }
 
+        Core::Index EntityManager::addEntity( std::unique_ptr<Entity> arg ){
+
+            // insert give the ownership to m_entities
+            Core::Index idx = m_entities.insert( std::move(arg) );
+            CORE_ASSERT(arg.get() == nullptr, "addEntity do not get the ownership");
+            auto& ent = m_entities[idx];
+            ent->idx = idx;
+
+            if (ent->getName() == "")
+            {
+                std::string name;
+                Core::StringUtils::stringPrintf( name, "Entity_%u", idx.getValue() );
+                ent->rename( name );
+            }
+
+            m_entitiesName.insert( std::pair<std::string, Core::Index> (
+                                       ent->getName(), idx ) );
+
+            RadiumEngine::getInstance()->getSignalManager()->fireEntityCreated(ItemEntry(ent.get()));
+            return idx;
+
+        }
+
         bool EntityManager::entityExists( const std::string& name ) const
         {
             return m_entitiesName.find( name ) != m_entitiesName.end();

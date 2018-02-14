@@ -45,6 +45,13 @@ namespace Ra
              */
             Entity* createEntity( const std::string& name = "" );
 
+             /**
+             * @brief Add an entity to the Manager, taking ownership
+             * @param ent Entity unique_ptr
+             * @return The entity index.
+             * warning : do not use ent.get nor any ent-> after this call, since ownership is transfered
+             */
+            Core::Index addEntity( std::unique_ptr<Entity> ent );
 
             /**
              * @brief Check wether an entity with a given name exists or not.

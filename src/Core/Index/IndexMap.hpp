@@ -49,6 +49,9 @@ public:
     /// Insert a object in the IndexMap. Return an invalid index if the object is not inserted.
     inline Index insert( const T& obj );
 
+    /// Insert a object in the IndexMap. Return an invalid index if the object is not inserted.
+    inline Index insert( T && obj );
+
     /// Construct an object in place in the IndexMap. Return an invalid index if the object is not inserted.
     template<typename... Args>
     inline Index emplace( const Args&&... args );

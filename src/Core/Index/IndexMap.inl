@@ -48,6 +48,27 @@ inline Index IndexMap< T >::insert( const T& obj )
     return idx;
 }
 
+template < typename T >
+inline Index IndexMap< T >::insert( T&& obj )
+{
+    Index idx;
+    if( pop_free_index( idx ) )
+    {
+        typename std::deque< Index >::iterator it = std::lower_bound( m_index.begin(), m_index.end(), idx );
+        if( it == m_index.end() )
+        {
+            m_data.insert( m_data.end(), std::move(obj) );
+        }
+        else
+        {
+            m_data.insert(citfromIndex(it), std::move(obj));
+        }
+        m_index.insert( it, idx );
+    }
+    return idx;
+}
+
+
 template < typename T>
 template <typename... Args>
 Index IndexMap<T>::emplace(const Args&&... args)
