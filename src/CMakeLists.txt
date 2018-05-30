@@ -74,7 +74,9 @@ add_library(
 
 add_dependencies( ${core_target} eigen3 radiumVersionFile openmesh_lib)
 target_compile_definitions(${core_target} PRIVATE "-DRA_CORE_EXPORTS")
-set_target_properties(${core_target} PROPERTIES LINK_FLAGS "-Wl,-rpath,./")
+if(UNIX)
+    set_target_properties(${core_target} PROPERTIES LINK_FLAGS "-Wl,-rpath,./")
+endif(UNIX)
 
 target_link_libraries(
     ${core_target}
@@ -86,7 +88,6 @@ set(io_target radiumIO)
 
 file(GLOB io_sources IO/*.cpp)
 file(GLOB io_headers IO/*.h IO/*.hpp)
-file(GLOB io_inlines IO/*.inl)
 
 set(io_libs radiumCore radiumEngine)
 
@@ -94,7 +95,6 @@ if( RADIUM_ASSIMP_SUPPORT )
     add_subdirectory( IO/AssimpLoader )
     set( io_sources ${io_sources} ${assimp_sources} )
     set( io_headers ${io_headers} ${assimp_headers} )
-    set( io_inlines ${io_inlines} ${assimp_inlines} )
     set( io_libs    ${io_libs}    ${ASSIMP_LIBRARIES} )
 endif( RADIUM_ASSIMP_SUPPORT )
 
@@ -102,7 +102,6 @@ if( RADIUM_TINYPLY_SUPPORT )
     add_subdirectory( IO/TinyPlyLoader )
     set( io_sources ${io_sources} ${tinyply_sources} )
     set( io_headers ${io_headers} ${tinyply_headers} )
-    set( io_inlines ${io_inlines} ${tinyply_inlines} )
 endif( RADIUM_TINYPLY_SUPPORT )
 
 if( RADIUM_IO_IS_INTERFACE )
@@ -136,10 +135,12 @@ else( RADIUM_IO_IS_INTERFACE )
             ${io_libs}
     )
     set_property( TARGET ${io_target} PROPERTY POSITION_INDEPENDENT_CODE ON )
+    if(UNIX)
+        set_target_properties(${io_target} PROPERTIES LINK_FLAGS "-Wl,-rpath,./")
+    endif(UNIX)
 endif( RADIUM_IO_IS_INTERFACE )
 
 add_dependencies( ${io_target} ${core_target} ${engine_target} )
-set_target_properties(${io_target} PROPERTIES LINK_FLAGS "-Wl,-rpath,./")
 
 if( RADIUM_ASSIMP_SUPPORT )
     add_dependencies( ${io_target} assimp_lib )
@@ -178,7 +179,9 @@ add_library(
 )
 
 add_dependencies( ${engine_target} ${core_target} glbinding_lib globjects_lib glm_lib)
-set_target_properties(${engine_target} PROPERTIES LINK_FLAGS "-Wl,-rpath,./")
+if(UNIX)
+    set_target_properties(${engine_target} PROPERTIES LINK_FLAGS "-Wl,-rpath,./")
+endif(UNIX)
 
 target_compile_definitions(${engine_target} PRIVATE "-DRA_ENGINE_EXPORTS")
 
@@ -227,7 +230,9 @@ add_library(
 
 add_dependencies( ${guibase_target} ${engine_target} glbinding_lib globjects_lib)
 target_compile_definitions(${guibase_target} PRIVATE "-DRA_GUIBASE_EXPORTS")
-set_target_properties(${guibase_target} PROPERTIES LINK_FLAGS "-Wl,-rpath,./")
+if(UNIX)
+    set_target_properties(${guibase_target} PROPERTIES LINK_FLAGS "-Wl,-rpath,./")
+endif(UNIX)
 
 target_link_libraries(
     ${guibase_target}
