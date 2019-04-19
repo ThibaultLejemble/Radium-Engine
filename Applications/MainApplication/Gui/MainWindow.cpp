@@ -164,6 +164,9 @@ void MainWindow::createConnections() {
         static_cast<void ( QComboBox::* )( const QString& )>( &QComboBox::currentIndexChanged ),
         [=]( const QString& ) { this->onCurrentRenderChangedInUI(); } );
 
+    connect( m_viewer, &Viewer::glInitialized, this, &MainWindow::onGLInitialized );
+    connect( m_viewer, &Viewer::rendererReady, this, &MainWindow::onRendererReady );
+
     connect(
         m_displayedTextureCombo,
         static_cast<void ( QComboBox::* )( const QString& )>( &QComboBox::currentIndexChanged ),
@@ -259,6 +262,7 @@ void MainWindow::onUpdateFramestats( const std::vector<FrameTimerData>& stats ) 
 
     for ( uint i = 0; i < stats.size(); ++i )
     {
+        sumEvents += Core::Utils::getIntervalMicro( stats[i].eventsStart, stats[i].eventsEnd );
         sumRender += Core::Utils::getIntervalMicro( stats[i].renderData.renderStart,
                                                     stats[i].renderData.renderEnd );
         sumTasks += Core::Utils::getIntervalMicro( stats[i].tasksStart, stats[i].tasksEnd );
@@ -273,6 +277,9 @@ void MainWindow::onUpdateFramestats( const std::vector<FrameTimerData>& stats ) 
 
     const uint N{uint( stats.size() )};
     const Scalar T( N * 1000000.f );
+
+    m_eventsTime->setNum( int( sumEvents / N ) );
+    m_eventsUpdates->setNum( int( T / Scalar( sumEvents ) ) );
     m_renderTime->setNum( int( sumRender / N ) );
     m_renderUpdates->setNum( int( T / Scalar( sumRender ) ) );
     m_tasksTime->setNum( int( sumTasks / N ) );
