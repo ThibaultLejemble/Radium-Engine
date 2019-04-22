@@ -16,8 +16,16 @@ inline RA_CORE_API Scalar projectOnSegment( const Vector3& q,
                                             const Vector3& a,
                                             const Vector3& ab ) {
     // Edge case : segment has length 0
-    if ( UNLIKELY( ab.squaredNorm() == 0 ) ) { return 0; }
-    return std::clamp( ( q - a ).dot( ab ) / ( ab.squaredNorm() ), Scalar( 0 ), Scalar( 1 ) );
+    if ( UNLIKELY( ab.squaredNorm() == 0 ) )
+    {
+        return 0;
+    }
+    // std::clamp not available before gcc 7.1
+    Scalar res = ( q - a ).dot( ab ) / ( ab.squaredNorm() );
+    if(res < Scalar(0)) res = Scalar(0);
+    if(res > Scalar(1)) res = Scalar(1);
+    return res;
+//    return std::clamp( ( q - a ).dot( ab ) / ( ab.squaredNorm() ), Scalar( 0 ), Scalar( 1 ) );
 }
 
 inline RA_CORE_API Scalar pointToSegmentSq( const Vector3& q,

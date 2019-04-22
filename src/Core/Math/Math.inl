@@ -74,7 +74,11 @@ inline constexpr T signNZ( const T& val ) {
 
 template <typename T>
 inline constexpr T saturate( T v ) {
-    return std::clamp( v, static_cast<T>( 0 ), static_cast<T>( 1 ) );
+    // std::clamp not available before gcc 7.1
+    if(v < T(0)) v = T(0);
+    if(v > T(1)) v = T(1);
+    return v;
+//    return std::clamp( v, static_cast<T>( 0 ), static_cast<T>( 1 ) );
 }
 
 /// Implementation inspired from https://en.cppreference.com/w/cpp/types/numeric_limits/epsilon

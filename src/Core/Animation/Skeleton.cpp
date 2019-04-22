@@ -211,7 +211,11 @@ Vector3 Skeleton::projectOnBone( int boneIdx, const Ra::Core::Vector3& pos ) con
     CORE_ASSERT( length_sq != 0.f, "bone has lenght 0, cannot project." );
 
     // Project on the line segment
-    const Scalar t = std::clamp( op.dot( dir ) / length_sq, Scalar( 0 ), Scalar( 1 ) );
+    // std::clamp not available before gcc 7.1
+    Scalar t = op.dot( dir ) / length_sq;
+    if(t < Scalar(0)) t = Scalar(0);
+    if(t > Scalar(1)) t = Scalar(1);
+//    const Scalar t = std::clamp( op.dot( dir ) / length_sq, Scalar(0), Scalar(1) );
     return start + ( t * dir );
 }
 

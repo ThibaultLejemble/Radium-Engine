@@ -46,9 +46,15 @@ inline typename Derived::PlainMatrix clamp( const Eigen::MatrixBase<Derived>& v,
 }
 
 template <typename Derived>
-inline typename Derived::PlainMatrix
-clamp( const Eigen::MatrixBase<Derived>& v, const Scalar& min, const Scalar& max ) {
-    return v.unaryExpr( [min, max]( Scalar x ) { return std::clamp( x, min, max ); } );
+inline typename Derived::PlainMatrix clamp( const Eigen::MatrixBase<Derived>& v, const Scalar& min,
+                                            const Scalar& max ) {
+    return v.unaryExpr( [min, max]( Scalar x ) {
+            // std::clamp not available before gcc 7.1
+            if(x < Scalar(min)) x = Scalar(min);
+            if(x > Scalar(max)) x = Scalar(max);
+            return x;
+//        return std::clamp( x, min, max ); } );
+    });
 }
 
 template <typename Vector_>
