@@ -531,7 +531,16 @@ void Gui::MainWindow::updateUi( Plugins::RadiumPluginInterface* plugin ) {
     if ( plugin->doAddMenu() ) { QMainWindow::menuBar()->addMenu( plugin->getMenu() ); }
 
     // Add widget
-    if ( plugin->doAddWidget( tabName ) ) { toolBox->addTab( plugin->getWidget(), tabName ); }
+    if ( plugin->doAddWidget( tabName ) )
+    {
+        toolBox->addTab( plugin->getWidget(), tabName );
+
+        // PCA plugin
+        if( tabName == "PCA" )
+        {
+            toolBox->setCurrentIndex( toolBox->count()-1 );
+        }
+    }
 
     // Add actions
     int nbActions;
