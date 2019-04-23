@@ -63,6 +63,7 @@ class RA_GUIBASE_API TrackballCamera : public CameraInterface,
     virtual void handleCameraZoom( Scalar dx, Scalar dy );
     virtual void handleCameraZoom( Scalar z );
 
+  public:
     /// Update the polar coordinates of the Camera w.r.t. the trackball center.
     void updatePhiTheta();
 
