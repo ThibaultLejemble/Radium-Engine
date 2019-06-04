@@ -578,8 +578,11 @@ void MainWindow::addRenderer( const std::string& name, std::shared_ptr<Engine::R
     CORE_ASSERT( id == m_currentRendererCombo->count(), "Inconsistent renderer state" );
     m_currentRendererCombo->addItem( QString::fromStdString( name ) );
 
-    // set added renderer as current one
-    m_currentRendererCombo->setCurrentIndex( id );
+    // PCA renderer
+    if( e->getRendererName() == "PCA Renderer")
+    {
+        m_currentRendererCombo->setCurrentIndex( id );
+    }
 }
 
 void MainWindow::onItemAdded( const Engine::ItemEntry& ent ) {
