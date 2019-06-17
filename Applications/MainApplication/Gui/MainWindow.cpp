@@ -82,6 +82,31 @@ MainWindow::MainWindow( QWidget* parent ) : MainWindowInterface( parent ) {
             Ui::MainWindow::dockWidget->setVisible(!b);
         },
         QKeySequence(Qt::Key_Q));
+    Ui::MainWindow::dockWidget->setVisible(false);
+
+    // press N to switch between 'Final image' and 'Normal' texture
+    Ui::MainWindow::menuFILE->addAction(
+        QString("Show/Hide Normals"),
+        [this]()
+        {
+            if(m_displayedTextureCombo->currentText() == "Final image")
+            {
+                int idx = m_displayedTextureCombo->findText("Normal");
+                if(idx != -1)
+                {
+                    m_displayedTextureCombo->setCurrentIndex(idx);
+                }
+            }
+            else if(m_displayedTextureCombo->currentText() == "Normal")
+            {
+                int idx = m_displayedTextureCombo->findText("Final image");
+                if(idx != -1)
+                {
+                    m_displayedTextureCombo->setCurrentIndex(idx);
+                }
+            }
+        },
+        QKeySequence(Qt::Key_N));
 
     mainApp->framesCountForStatsChanged( uint( m_avgFramesCount->value() ) );
 
@@ -574,7 +599,6 @@ void MainWindow::onFrameComplete() {
 
 void MainWindow::addRenderer( const std::string& name, std::shared_ptr<Engine::Renderer> e ) {
     int id = m_viewer->addRenderer( e );
-    CORE_UNUSED( id );
     CORE_ASSERT( id == m_currentRendererCombo->count(), "Inconsistent renderer state" );
     m_currentRendererCombo->addItem( QString::fromStdString( name ) );
 
