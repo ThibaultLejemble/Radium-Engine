@@ -52,6 +52,9 @@ class RA_ENGINE_API Displayable
     /// Draw the mesh.
     virtual void render() = 0;
 
+    /// Progressive rendering
+    virtual bool render(int /*n*/) {render(); return false;}
+
     //// Utility methods, used to display statistics
     virtual size_t getNumFaces() const { return 0; }
     virtual size_t getNumVertices() const { return 0; }

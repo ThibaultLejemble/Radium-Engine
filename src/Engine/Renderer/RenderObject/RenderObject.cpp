@@ -238,5 +238,41 @@ void RenderObject::render( const RenderParameters& lightParams,
     render( lightParams, viewParams, getRenderTechnique()->getShader( passname ) );
 }
 
+// Progressive rendering -------------------------------------------------------
+bool RenderObject::render( int n,
+                           const RenderParameters& lightParams,
+                           const ViewingParameters& viewParams,
+                           const ShaderProgram* shader ) {
+    if ( m_visible )
+    {
+        if ( !shader ) { return false; }
+
+        // Radium V2 : avoid this temporary
+        Core::Matrix4 modelMatrix  = getTransformAsMatrix();
+        Core::Matrix4 normalMatrix = modelMatrix.inverse().transpose();
+        // bind data
+        shader->bind();
+        shader->setUniform( "transform.proj", viewParams.projMatrix );
+        shader->setUniform( "transform.view", viewParams.viewMatrix );
+        shader->setUniform( "transform.model", modelMatrix );
+        shader->setUniform( "transform.worldNormal", normalMatrix );
+        lightParams.bind( shader );
+
+        auto material = m_renderTechnique->getMaterial();
+        if ( material != nullptr ) material->bind( shader );
+
+        // render
+        return getMesh()->render(n);
+    }
+    return false;
+}
+bool RenderObject::render( int n,
+                           const RenderParameters& lightParams,
+                           const ViewingParameters& viewParams,
+                           RenderTechnique::PassName passname ) {
+    return render( n, lightParams, viewParams, getRenderTechnique()->getShader( passname ) );
+}
+// -----------------------------------------------------------------------------
+
 } // namespace Engine
 } // namespace Ra

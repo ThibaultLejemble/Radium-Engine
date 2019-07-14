@@ -164,6 +164,17 @@ class RA_ENGINE_API RenderObject final : public Core::Utils::IndexedObject
                          const ViewingParameters& viewParams,
                          RenderTechnique::PassName passname = RenderTechnique::LIGHTING_OPAQUE );
 
+    // Progressive rendering ---------------------------------------------------
+    bool render( int n,
+                 const RenderParameters& lightParams,
+                 const ViewingParameters& viewParams,
+                 const ShaderProgram* shader );
+    bool render( int n,
+                 const RenderParameters& lightParams,
+                 const ViewingParameters& viewParams,
+                 RenderTechnique::PassName passname = RenderTechnique::LIGHTING_OPAQUE );
+    // -------------------------------------------------------------------------
+
   private:
     Core::Transform m_localTransform{Core::Transform::Identity()};
 
