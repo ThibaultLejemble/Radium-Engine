@@ -145,7 +145,10 @@ bool Gui::TrackballCamera::handleMouseMoveEvent( QMouseEvent* event,
         m_light->setDirection( m_camera->getDirection() );
     }
 
-    emit cameraChanged( m_camera->getPosition(), m_trackballCenter );
+    if(m_cameraRotateMode || m_cameraPanMode || m_cameraZoomMode)
+    {
+        emit cameraChanged( m_camera->getPosition(), m_trackballCenter );
+    }
 
     return m_cameraRotateMode || m_cameraPanMode || m_cameraZoomMode;
 }
@@ -364,7 +367,7 @@ void Gui::TrackballCamera::handleCameraZoom( Scalar z ) {
 
     // m_trackballCenter = m_camera->getPosition() + m_camera->getDirection().normalized();
 
-    emit cameraPositionChanged( m_camera->getPosition() );
+//    emit cameraPositionChanged( m_camera->getPosition() );
 
     // m_distFromCenter = ( m_trackballCenter - m_camera->getPosition() ).norm();
 #endif
