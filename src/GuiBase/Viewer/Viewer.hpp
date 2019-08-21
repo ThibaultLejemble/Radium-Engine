@@ -132,6 +132,8 @@ class RA_GUIBASE_API Viewer : public WindowQt, public KeyMappingManageable<Viewe
     void toggleBrushPicking(
         bool on ); //! Emitted when the corresponding key is released (see keyReleaseEvent)
 
+    void endBrushPicking();
+
     void needUpdate();
 
   public slots:

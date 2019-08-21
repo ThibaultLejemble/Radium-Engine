@@ -538,6 +538,12 @@ void Gui::Viewer::keyReleaseEvent( QKeyEvent* event ) {
 
     m_camera->handleKeyReleaseEvent( event );
 
+    //TODO how to not use Key_V but the key specified in the configuration file ?
+    if(m_isBrushPickingEnabled && !event->isAutoRepeat() && event->key() == Qt::Key_V)
+    {
+        emit endBrushPicking();
+    }
+
     emit needUpdate();
 }
 
