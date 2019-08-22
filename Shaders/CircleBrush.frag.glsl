@@ -6,7 +6,7 @@ uniform vec2  mousePosition;
 uniform float brushRadius;
 uniform vec2  dim;
 
-float width = 1;
+float width = 0.5;
 
 void main()
 {
@@ -15,7 +15,7 @@ void main()
     if(dist>brushRadius+width || dist<brushRadius-width)
         discard;
     else
-        fragColor = vec4(1,0.75,0,1);
+        fragColor = vec4(1,1,1,1);
 }
 
 
