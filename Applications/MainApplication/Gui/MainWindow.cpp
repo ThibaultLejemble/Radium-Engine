@@ -331,6 +331,14 @@ GuiBase::SelectionManager* MainWindow::getSelectionManager() {
 
 void Gui::MainWindow::toggleCirclePicking( bool on ) {
     centralWidget()->setMouseTracking( on );
+    if( on )
+    {
+        mainApp->setOverrideCursor( Qt::BlankCursor );
+    }
+    else
+    {
+        mainApp->restoreOverrideCursor();
+    }
 }
 
 void MainWindow::handlePicking( const Engine::Renderer::PickingResult& pickingResult ) {
