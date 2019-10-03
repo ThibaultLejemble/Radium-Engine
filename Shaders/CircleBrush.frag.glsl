@@ -15,7 +15,7 @@ void main()
     if(dist>brushRadius+width || dist<brushRadius-width)
         discard;
     else
-        fragColor = vec4(1,1,1,1);
+        fragColor = vec4(1,0.3,0,1);
 }
 
 
