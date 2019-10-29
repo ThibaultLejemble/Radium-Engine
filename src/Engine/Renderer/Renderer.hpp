@@ -309,6 +309,8 @@ class RA_ENGINE_API Renderer
 
     PickingResult doPickingNow( const PickingQuery& query, const ViewingParameters& renderData );
 
+    inline void setSplatRadius(Scalar splatRadius) {m_splatRadius = splatRadius;}
+
   protected:
     /**
      * @brief initializeInternal
@@ -435,6 +437,8 @@ class RA_ENGINE_API Renderer
     TimerData m_timerData;
 
     std::mutex m_renderMutex;
+
+    Scalar m_splatRadius;
 
     // PICKING STUFF
     Ra::Core::Vector2 m_mousePosition;
