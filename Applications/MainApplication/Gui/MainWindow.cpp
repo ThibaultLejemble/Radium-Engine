@@ -73,6 +73,16 @@ MainWindow::MainWindow( QWidget* parent ) : MainWindowInterface( parent ) {
 
     createConnections();
 
+    // press Q to show/hide the QDockWidget
+    Ui::MainWindow::menuFILE->addAction(
+        QString("Show/Hide menu"),
+        [this]()
+        {
+            const auto b = Ui::MainWindow::dockWidget->isVisible();
+            Ui::MainWindow::dockWidget->setVisible(!b);
+        },
+        QKeySequence(Qt::Key_Q));
+
     mainApp->framesCountForStatsChanged( uint( m_avgFramesCount->value() ) );
 
     // load default color from QSettings
