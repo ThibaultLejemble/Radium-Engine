@@ -59,6 +59,8 @@ void Renderer::initialize( uint width, uint height ) {
     m_width  = width;
     m_height = height;
 
+    m_splatRadius = 1;
+
     // Initialize managers
     m_shaderMgr = ShaderProgramManager::getInstance();
     m_roMgr     = RadiumEngine::getInstance()->getRenderObjectManager();
@@ -397,6 +399,7 @@ void Renderer::renderForPicking(
             if ( ro->isVisible() && ro->isPickable() )
             {
                 pickingShaders[i]->setUniform( "objectId", ro->getIndex().getValue() );
+                pickingShaders[i]->setUniform( "pointCloudSplatRadius", m_splatRadius );
                 Core::Matrix4 M = ro->getTransformAsMatrix();
                 Core::Matrix4 N = M.inverse().transpose();
                 pickingShaders[i]->setUniform( "transform.model", M );
