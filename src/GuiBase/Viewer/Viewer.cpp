@@ -696,10 +696,12 @@ void Gui::Viewer::grabFrame( const std::string& filename ) {
 
 void Gui::Viewer::enablePostProcess( int enabled ) {
     m_currentRenderer->enablePostProcess( enabled );
+    emit needUpdate();
 }
 
 void Gui::Viewer::enableDebugDraw( int enabled ) {
     m_currentRenderer->enableDebugDraw( enabled );
+    emit needUpdate();
 }
 
 void Gui::Viewer::update( const Scalar dt ) {
