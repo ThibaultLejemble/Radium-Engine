@@ -559,7 +559,16 @@ void Gui::MainWindow::updateUi( Plugins::RadiumPluginInterface* plugin ) {
     if ( plugin->doAddMenu() ) { QMainWindow::menuBar()->addMenu( plugin->getMenu() ); }
 
     // Add widget
-    if ( plugin->doAddWidget( tabName ) ) { toolBox->addTab( plugin->getWidget(), tabName ); }
+    if ( plugin->doAddWidget( tabName ) )
+    {
+        toolBox->addTab( plugin->getWidget(), tabName );
+
+        // set added widget as current one if it's PCP
+        if( tabName == "PCP" )
+        {
+            toolBox->setCurrentIndex( toolBox->count()-1 );
+        }
+    }
 
     // Add actions
     int nbActions;
