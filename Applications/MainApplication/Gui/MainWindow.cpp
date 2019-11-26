@@ -83,6 +83,7 @@ MainWindow::MainWindow( QWidget* parent ) : MainWindowInterface( parent ) {
         },
         QKeySequence(Qt::Key_Q));
     Ui::MainWindow::dockWidget->setVisible(false);
+    Ui::MainWindow::toolBar->setVisible(false);
 
     // press N to switch between 'Final image' and 'Normal' texture
     Ui::MainWindow::menuFILE->addAction(
