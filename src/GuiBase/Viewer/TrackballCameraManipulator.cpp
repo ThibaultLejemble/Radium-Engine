@@ -352,26 +352,27 @@ void Gui::TrackballCameraManipulator::handleCameraZoom( Scalar dx, Scalar dy ) {
 }
 
 void Gui::TrackballCameraManipulator::handleCameraZoom( Scalar z ) {
-    // tested this way of zooming, not convinced it's better
-#if 0
-    Scalar zoom = m_camera->getZoomFactor() - z * m_cameraSensitivity * m_quickCameraModifier;
-    Scalar epsIn = 0.001;
-    Scalar epsOut = 3.1;
-    m_camera->setZoomFactor( std::clamp( zoom, epsIn, epsOut ) );
-#else
-    Scalar y    = m_distFromCenter * z * m_cameraSensitivity * m_quickCameraModifier;
-    Scalar dist = ( m_target - m_camera->getPosition() ).norm();
-    if ( dist < ( m_camera->getZNear() + y ) ) { y = dist - m_camera->getZNear(); }
+    if(m_camera->getType() == Engine::Camera::ProjType::ORTHOGRAPHIC)
+    {
+        Scalar zoom = m_camera->getZoomFactor() - z * m_cameraSensitivity * m_quickCameraModifier;
+        Scalar epsIn = 0.001;
+        Scalar epsOut = 1000.1;
+        m_camera->setZoomFactor( std::clamp( zoom, epsIn, epsOut ) );
+    }
+    else
+    {
+        Scalar y    = m_distFromCenter * z * m_cameraSensitivity * m_quickCameraModifier;
+        Scalar dist = ( m_target - m_camera->getPosition() ).norm();
+        if ( dist < ( m_camera->getZNear() + y ) ) { y = dist - m_camera->getZNear(); }
 
-    Core::Transform T( Core::Transform::Identity() );
-    Core::Vector3 t = y * m_camera->getDirection();
-    T.translate( t );
+        Core::Transform T( Core::Transform::Identity() );
+        Core::Vector3 t = y * m_camera->getDirection();
+        T.translate( t );
 
-    m_camera->applyTransform( T );
-    m_distFromCenter = ( m_target - m_camera->getPosition() ).norm();
-
+        m_camera->applyTransform( T );
+        m_distFromCenter = ( m_target - m_camera->getPosition() ).norm();
+    }
     emit cameraPositionChanged( m_camera->getPosition() );
-#endif
 }
 
 void Gui::TrackballCameraManipulator::updatePhiTheta() {
