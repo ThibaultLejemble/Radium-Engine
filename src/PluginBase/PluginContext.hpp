@@ -25,6 +25,8 @@ class RA_PLUGINBASE_API Context : public QObject
   public:
     explicit Context( QObject* parent = nullptr ) : QObject( parent ) {}
 
+    int m_argc;
+    char** m_argv;
     Engine::RadiumEngine* m_engine{nullptr};
     GuiBase::SelectionManager* m_selectionManager{nullptr};
     Gui::PickingManager* m_pickingManager{nullptr};

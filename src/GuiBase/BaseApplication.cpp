@@ -235,6 +235,8 @@ BaseApplication::BaseApplication( int& argc,
     m_engine->registerSystem( "GeometrySystem", new Ra::Engine::GeometrySystem, 1000 );
 
     // Initialize plugin context
+    m_pluginContext.m_argc             = argc;
+    m_pluginContext.m_argv             = argv;
     m_pluginContext.m_engine           = m_engine.get();
     m_pluginContext.m_selectionManager = m_mainWindow->getSelectionManager();
     m_pluginContext.m_pickingManager   = m_viewer->getPickingManager();
