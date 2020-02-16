@@ -131,7 +131,22 @@ BaseApplication::BaseApplication( int& argc,
                         maxThreadsOpt,
                         numFramesOpt,
                         recordOpt} );
-    parser.process( *this );
+
+    QStringList args;
+    for ( int i = 0; i < argc; ++i) {
+        args.push_back(argv[i]);
+    }
+
+    if ( ! parser.parse( args ) ) {
+        LOG( logWARNING ) << parser.errorText().toStdString();
+    }
+
+    if ( parser.isSet("h") || parser.isSet("help") ) {
+        parser.showHelp();
+    }
+    else if ( parser.isSet("v") || parser.isSet("version") ) {
+        parser.showVersion();
+    }
 
     if ( parser.isSet( fpsOpt ) ) m_targetFPS = parser.value( fpsOpt ).toUInt();
     if ( parser.isSet( pluginOpt ) ) pluginsPath = parser.value( pluginOpt ).toStdString();
