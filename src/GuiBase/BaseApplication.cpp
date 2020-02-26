@@ -85,6 +85,7 @@ BaseApplication::BaseApplication( int& argc,
     parser.setApplicationDescription( "Radium Engine RPZ, TMTC" );
     parser.addHelpOption();
     parser.addVersionOption();
+    parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
 
     QCommandLineOption fpsOpt(
         QStringList{"r", "framerate", "fps"},
