@@ -169,6 +169,18 @@ class RA_ENGINE_API Renderer
     inline void enablePostProcess( bool enabled ) { m_postProcessEnabled = enabled; }
 
     /**
+     * @param the global size of the scene in world coordinates
+     * Used for point cloud rendering.
+     */
+    inline void setSceneSize( Scalar size ) { m_sceneSize = size; }
+
+    /**
+     * @param the radius of the splat as a ratio of the scene size
+     * Used for point cloud rendering.
+     */
+    inline void setSplatRadiusRatio( Scalar ratio ) { m_splatRadiusRatio = ratio; }
+
+    /**
      * @brief Tell the renderer it needs to render.
      * This method does the following steps :
      * <ol>
@@ -416,6 +428,9 @@ class RA_ENGINE_API Renderer
     bool m_drawDebug {true};          // Should we render debug stuff ?
     bool m_wireframe {false};         // Are we rendering in "real" wireframe mode
     bool m_postProcessEnabled {true}; // Should we do post processing ?
+
+    Scalar m_sceneSize{10};
+    Scalar m_splatRadiusRatio{0.002};
 
     // derived class could use the already created textures
     /// Depth texture : might be attached to the main framebuffer

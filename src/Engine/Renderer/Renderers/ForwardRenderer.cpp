@@ -187,6 +187,8 @@ void ForwardRenderer::renderInternal( const ViewingParameters& renderData ) {
     // Set in RenderParam the configuration about ambiant lighting (instead of hard constant
     // direclty in shaders)
     RenderParameters zprepassParams;
+    const Scalar splatRadius = m_splatRadiusRatio * m_sceneSize;
+    zprepassParams.addParameter("splatRadius", splatRadius);
     for ( const auto& ro : m_fancyRenderObjects )
     {
         ro->render( zprepassParams, renderData, DefaultRenderingPasses::Z_PREPASS );
@@ -219,6 +221,7 @@ void ForwardRenderer::renderInternal( const ViewingParameters& renderData ) {
             const auto l = m_lightmanagers[0]->getLight( i );
             RenderParameters lightingpassParams;
             l->getRenderParameters( lightingpassParams );
+            lightingpassParams.addParameter("splatRadius", splatRadius);
 
             for ( const auto& ro : m_fancyRenderObjects )
             {
@@ -263,6 +266,7 @@ void ForwardRenderer::renderInternal( const ViewingParameters& renderData ) {
                 const auto l = m_lightmanagers[0]->getLight( i );
                 RenderParameters trasparencypassParams;
                 l->getRenderParameters( trasparencypassParams );
+                trasparencypassParams.addParameter("splatRadius", splatRadius);
 
                 for ( const auto& ro : m_transparentRenderObjects )
                 {

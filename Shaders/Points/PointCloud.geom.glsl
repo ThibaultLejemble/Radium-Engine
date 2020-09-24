@@ -26,7 +26,7 @@ layout( location = 5 ) in vec3 in_viewVector[];
 layout( location = 6 ) in vec3 in_lightVector[];
 
 uniform Transform transform;
-float pointCloudSplatRadius = 0.0025; // fixme -> uniform
+uniform float splatRadius; // in world coordinates
 
 layout( location = 0 ) out vec3 out_position;
 layout( location = 1 ) out vec3 out_normal;
@@ -62,10 +62,10 @@ void main() {
 
     // quad corners
     vec3 point[4];
-    point[0] = in_position[0] - pointCloudSplatRadius * ( u + v );
-    point[1] = point[0] + pointCloudSplatRadius * u * 2;
-    point[2] = point[0] + pointCloudSplatRadius * v * 2;
-    point[3] = point[0] + pointCloudSplatRadius * ( u + v ) * 2;
+    point[0] = in_position[0] - splatRadius * ( u + v );
+    point[1] = point[0] + splatRadius * u * 2;
+    point[2] = point[0] + splatRadius * v * 2;
+    point[3] = point[0] + splatRadius * ( u + v ) * 2;
 
     // uv coordinates
     vec2 uv[4];
